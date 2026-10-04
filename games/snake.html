@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Змейка</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 32px 16px;
+      background: #eef2e8;
+      color: #233323;
+      font-family: system-ui, sans-serif;
+    }
+    main { max-width: 440px; margin: auto; }
+    h1 { margin: 0 0 8px; font-size: 32px; }
+    .score { font-size: 20px; font-weight: bold; }
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 2px solid #233323;
+      background: #fff;
+    }
+    .controls { display: flex; gap: 12px; margin-top: 16px; }
+    button {
+      padding: 10px 18px;
+      border: 1px solid #233323;
+      border-radius: 4px;
+      background: #fff;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+    }
+    button:disabled { opacity: .45; cursor: default; }
+    button:focus-visible { outline: 3px solid #d26a16; outline-offset: 3px; }
+    .hint { color: #536153; font-size: 14px; line-height: 1.5; }
+    #status { min-height: 24px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Змейка</h1>
+    <p>Собирайте еду. Не врезайтесь в стены и в себя.</p>
+    <p class="score">Счёт: <span id="score">0</span></p>
+    <canvas id="board" width="400" height="400" aria-label="Игровое поле змейки">
+      Для игры нужен браузер с поддержкой canvas и JavaScript.
+    </canvas>
+    <div class="controls">
+      <button id="start" type="button">Начать</button>
+      <button id="pause" type="button" disabled>Пауза</button>
+    </div>
+    <p id="status" role="status">Нажмите «Начать» или Enter.</p>
+    <p class="hint">Стрелки или WASD — движение. Пробел — пауза. Enter — новая игра.</p>
+  </main>
+
+  <script>
+    // Основные параметры игры можно менять здесь.
+    const GRID_SIZE = 20;
+    const TICK_MS = 160;
+    const canvas = document.getElementById('board');
+    const context = canvas.getContext('2d');
+    const cellSize = canvas.width / GRID_SIZE;
+    const scoreLabel = document.getElementById('score');
+    const statusLabel = document.getElementById('status');
+    const startButton = document.getElementById('start');
+    const pauseButton = document.getElementById('pause');
+    let snakeColor = '#00FF00'; // цвет змейки, меняется в диско-режиме
+
+    let snake;
+    let direction;
+    let food;
+    let score;
+    let phase;
+    let turnQueued;
+
+    function sameCell(a, b) {
+      return a.x === b.x && a.y === b.y;
+    }
+
+    function placeFood() {
+      const freeCells = [];
+      for (let y = 0; y < GRID_SIZE; y++) {
+        for (let x = 0; x < GRID_SIZE; x++) {
+          const cell = { x, y };
+          if (!snake.some(part => sameCell(part, cell))) freeCells.push(cell);
+        }
+      }
+      return freeCells.length ? freeCells[Math.floor(Math.random() * freeCells.length)] : null;
+    }
+
+    function resetGame() {
+      snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
+      direction = { x: 1, y: 0 };
+      score = 0;
+      phase = 'ready';
+      turnQueued = false;
+      food = placeFood();
+      scoreLabel.textContent = score;
+      draw();
+    }
+
+    function startGame() {
+      resetGame();
+      phase = 'running';
+      startButton.textContent = 'Заново';
+      pauseButton.textContent = 'Пауза';
+      pauseButton.disabled = false;
+      statusLabel.textContent = 'Игра идёт.';
+      draw();
+    }
+
+    function togglePause() {
+      if (phase !== 'running' && phase !== 'paused') return;
+      phase = phase === 'running' ? 'paused' : 'running';
+      pauseButton.textContent = phase === 'paused' ? 'Продолжить' : 'Пауза';
+      statusLabel.textContent = phase === 'paused' ? 'Пауза.' : 'Игра идёт.';
+      draw();
+    }
+
+    function finishGame(won = false) {
+      phase = won ? 'won' : 'over';
+      pauseButton.disabled = true;
+      statusLabel.textContent = won ? 'Вы заполнили всё поле. Победа!' : 'Игра окончена. Попробуйте ещё раз!';
+      draw();
+    }
+
+    function changeDirection(next) {
+      if (phase !== 'running' || turnQueued) return;
+      // За один ход разрешён один поворот; разворот в собственное тело запрещён.
+      if (next.x === -direction.x && next.y === -direction.y) return;
+      if (sameCell(next, direction)) return;
+      direction = next;
+      turnQueued = true;
+    }
+
+    function tick() {
+      if (phase !== 'running') return;
+      const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+      const eating = sameCell(head, food);
+      // При обычном движении хвост освобождает свою клетку в этот же ход.
+      const body = eating ? snake : snake.slice(0, -1);
+      if (head.x < 0 || head.y < 0 || head.x >= GRID_SIZE || head.y >= GRID_SIZE ||
+          body.some(part => sameCell(part, head))) {
+        finishGame();
+        return;
+      }
+      snake.unshift(head);
+      if (eating) {
+        score += 1;
+        scoreLabel.textContent = score;
+        food = placeFood();
+        if (food === null) {
+          finishGame(true);
+          return;
+        }
+      } else {
+        snake.pop();
+      }
+      turnQueued = false;
+      draw();
+    }
+
+    function draw() {
+      context.fillStyle = '#1a1a1a';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.strokeStyle = '#eef2e8';
+      context.lineWidth = 1;
+      for (let i = 1; i < GRID_SIZE; i++) {
+        context.beginPath();
+        context.moveTo(i * cellSize, 0);
+        context.lineTo(i * cellSize, canvas.height);
+        context.moveTo(0, i * cellSize);
+        context.lineTo(canvas.width, i * cellSize);
+        context.stroke();
+      }
+      if (food) {
+        context.fillStyle = '#d26a16';
+        context.fillRect(food.x * cellSize + 3, food.y * cellSize + 3, cellSize - 6, cellSize - 6);
+      }
+      snake.forEach((part, index) => {
+        context.fillStyle = snakeColor;
+        context.fillRect(part.x * cellSize + 1, part.y * cellSize + 1, cellSize - 2, cellSize - 2);
+      });
+      const labels = { ready: 'ЗМЕЙКА', paused: 'ПАУЗА', over: 'ИГРА ОКОНЧЕНА', won: 'ПОБЕДА!' };
+      if (labels[phase]) {
+        context.fillStyle = 'rgba(255, 255, 255, 0.92)';
+        context.fillRect(0, 160, canvas.width, 80);
+        context.fillStyle = '#233323';
+        context.font = 'bold 24px sans-serif';
+        context.textAlign = 'center';
+        context.fillText(labels[phase], canvas.width / 2, 210);
+      }
+    }
+
+    const keyDirections = {
+      ArrowUp: { x: 0, y: -1 }, KeyW: { x: 0, y: -1 },
+      ArrowDown: { x: 0, y: 1 }, KeyS: { x: 0, y: 1 },
+      ArrowLeft: { x: -1, y: 0 }, KeyA: { x: -1, y: 0 },
+      ArrowRight: { x: 1, y: 0 }, KeyD: { x: 1, y: 0 }
+    };
+    document.addEventListener('keydown', event => {
+      if (keyDirections[event.code]) {
+        event.preventDefault();
+        changeDirection(keyDirections[event.code]);
+      } else if (event.code === 'Space') {
+        event.preventDefault();
+        if (!event.repeat) togglePause();
+      } else if (event.code === 'Enter') {
+        event.preventDefault();
+        if (!event.repeat) startGame();
+      }
+    });
+    startButton.addEventListener('click', startGame);
+    pauseButton.addEventListener('click', togglePause);
+    window.addEventListener('blur', () => {
+      if (phase === 'running') togglePause();
+    });
+
+    resetGame();
+    setInterval(tick, TICK_MS);
+
+    // === Диско-режим ===
+    // Каждую секунду меняем цвет фона игрового поля и цвет змейки на случайный.
+    function randomColor() {
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    setInterval(() => {
+      // Случайный цвет фона игрового поля (canvas).
+      canvas.style.background = randomColor();
+      // Случайный цвет змейки.
+      snakeColor = randomColor();
+      if (typeof draw === 'function' && typeof phase !== 'undefined' && phase !== 'ready') {
+        draw();
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

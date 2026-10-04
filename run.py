@@ -3,9 +3,9 @@
 import argparse
 import sys
 
-from clients import DeepSeekModel
-from diagnostics import describe_error
-import harness
+from local_agent.clients import DeepSeekModel
+from local_agent.diagnostics import describe_error
+import local_agent.harness as harness
 
 
 def main(argv=None):
@@ -22,12 +22,16 @@ def main(argv=None):
     model = None
     try:
         model = DeepSeekModel()
-        answer = harness.run(model, args.question)
+        result = harness.run(model, args.question) # <-- теперь возвращает RunResult
+        
+        if result.reason == "max_steps":
+            raise RuntimeError(f"max_steps: достигнут лимит запросов к модели")
+            
         if model.last_response and model.last_response["message"].get("tool_calls"):
             raise RuntimeError("Работа завершилась до получения окончательного ответа модели.")
-        if not isinstance(answer, str) or not answer.strip():
+        if not isinstance(result.answer, str) or not result.answer.strip(): # <-- используем result.answer
             raise RuntimeError("Программа завершилась без текстового ответа.")
-        print(f"Ответ: {answer}")
+        print(f"Ответ: {result.answer}") # <-- используем result.answer
         return 0
     except Exception as error:
         print(f"Ошибка: {describe_error(error)}", file=sys.stderr)

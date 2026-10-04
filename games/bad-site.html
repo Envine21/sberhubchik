@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ТАПОЧКИ РУЧНОЙ РАБОТЫ — ноги скажут спасибо</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --bg: #f6f1e7;
+    --card: #ffffff;
+    --ink: #2f2a24;
+    --muted: #6b6157;
+    --accent: #c2410c;
+    --accent-soft: #fde7d3;
+    --accent-dark: #8a2c08;
+    --line: #e2d7c7;
+    --success: #166534;
+  }
+
+  body {
+    margin: 0;
+    padding: 40px 16px;
+    background: radial-gradient(circle at 20% 0%, #fffaf2 0%, var(--bg) 45%, #ece2d2 100%);
+    color: var(--ink);
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 44px 48px 56px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 18px 45px rgba(80, 60, 40, 0.12), 0 2px 6px rgba(80, 60, 40, 0.06);
+  }
+
+  h1 {
+    margin: 0 0 8px;
+    font-size: 2.3rem;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    color: var(--accent-dark);
+    text-align: center;
+  }
+
+  h1::after {
+    content: "";
+    display: block;
+    width: 90px;
+    height: 4px;
+    margin: 18px auto 0;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--accent), #f0a556);
+  }
+
+  h2 {
+    margin: 44px 0 14px;
+    padding-bottom: 10px;
+    font-size: 1.5rem;
+    color: var(--accent-dark);
+    border-bottom: 2px solid var(--accent-soft);
+  }
+
+  h3 {
+    margin: 28px 0 6px;
+    font-size: 1.15rem;
+    color: var(--accent);
+  }
+
+  p { margin: 12px 0; }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(194, 65, 12, 0.35);
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  a:hover {
+    color: var(--accent-dark);
+    border-bottom-color: var(--accent-dark);
+  }
+
+  ul {
+    margin: 14px 0;
+    padding-left: 22px;
+  }
+  li { margin: 8px 0; }
+  li::marker { color: var(--accent); }
+
+  /* Меню навигации */
+  h1 + p + p {
+    text-align: center;
+    padding: 12px 16px;
+    background: var(--accent-soft);
+    border-radius: 12px;
+  }
+  h1 + p + p a { border-bottom: none; font-weight: 600; }
+
+  button {
+    display: block;
+    margin: 22px auto;
+    padding: 14px 32px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #fff;
+    background: linear-gradient(180deg, #e2611f, var(--accent));
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(194, 65, 12, 0.3);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(194, 65, 12, 0.38);
+  }
+  button:active { transform: translateY(0); }
+
+  hr {
+    margin: 40px 0;
+    border: none;
+    height: 1px;
+    background: var(--line);
+  }
+
+  b { color: var(--accent-dark); }
+
+  /* Таблица с ценами */
+  table {
+    width: 100%;
+    margin: 18px 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 0.97rem;
+  }
+
+  thead th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 0.82rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(180deg, #b93c0a, var(--accent-dark));
+  }
+
+  tbody td {
+    padding: 14px 16px;
+    border-top: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  tbody tr:nth-child(even) { background: #fdf8f2; }
+  tbody tr:hover { background: var(--accent-soft); }
+
+  tbody td:last-child {
+    font-weight: 700;
+    color: var(--success);
+    white-space: nowrap;
+  }
+
+  tbody td:first-child { font-weight: 600; }
+
+  @media (max-width: 640px) {
+    body { padding: 20px 10px; }
+    .container { padding: 26px 20px 34px; border-radius: 14px; }
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.25rem; }
+    table { font-size: 0.85rem; }
+    thead th, tbody td { padding: 10px 12px; }
+    h1 + p + p { line-height: 2.2; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+<!-- REMOVE_MARKER <!-- REMOVE_MARKER -->
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ТАПОЧКИ РУЧНОЙ РАБОТЫ — ноги скажут спасибо</title>
+</head>
+<body>
+  <h1>ТАПОЧКИ РУЧНОЙ РАБОТЫ</h1>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ТАПОЧКИ РУЧНОЙ РАБОТЫ — ноги скажут спасибо</title>
+</head>
+<body>
+  <h1>ТАПОЧКИ РУЧНОЙ РАБОТЫ</h1>
+  <p>ОФИЦИАЛЬНЫЙ САЙТ. Других сайтов у нас нет.</p>
+  <p><a href="#about">О нас</a> | <a href="#services">Тапочки</a> | <a href="#prices">Цены на тапочки</a> | <a href="#reviews">Люди в тапочках</a> | <a href="#contacts">Где тапочки</a></p>
+
+  <h2>ВАШИ НОГИ ЕЩЁ НЕ ДОМА? МЫ ИДЁМ К ВАМ</h2>
+  <p>Делаем тапочки руками. Надевать на ноги. Просьба не путать.</p>
+  <p>Мягкие. Тёплые. Есть левый. Есть правый. Можно сразу оба.</p>
+  <p><b>АКЦИЯ!!!</b> При покупке пары — второй тапок уже в паре.</p>
+  <button type="button" onclick="document.getElementById('contacts').scrollIntoView()">Я ГОТОВ К ТАПОЧКАМ</button>
+  <hr>
+
+  <h2 id="about">О НАШЕЙ КОМПАНИИ</h2>
+  <p>«ТАПОЧКИ РУЧНОЙ РАБОТЫ» — небольшая мастерская домашней обуви. Подбираем материалы, шьём и проверяем каждую пару вручную. Наши тапочки рассчитаны на долгие вечера дома, холодный пол и маршрут до кухни, который за день набирает приличный километраж.</p>
+  <p>Наши преимущества:</p>
+  <ul>
+    <li>Каждый тапок побывал в руках человека</li>
+    <li>Подходят для маршрута диван — холодильник — диван</li>
+    <li>Не требуют зарядки и регистрации</li>
+    <li>Размеры от «нормально» до «а побольше есть?»</li>
+    <li>Ни один тапок не сгенерирован нейросетью. За этот сайт не ручаемся</li>
+  </ul>
+
+  <h2 id="services">Наш тапочный ассортимент</h2>
+  <h3>«Домашний директор»</h3>
+  <p>Для тех, кто принимает серьёзные решения лёжа. В этих тапочках фраза «кто опять не выключил свет» звучит убедительнее.</p>
+  <h3>«Гость ненадолго»</h3>
+  <p>Гостевые тапочки. Удобные, но без лишнего гостеприимства. После третьей чашки чая можно выразительно посмотреть на часы.</p>
+  <h3>«Вынесу мусор и вернусь»</h3>
+  <p>Для коротких экспедиций за пределы квартиры. В магазин в них идти не планировали, но жизнь сложная.</p>
+  <h3>Индивидуальный заказ</h3>
+  <p>Вышьем имя, инициалы или «ЭТО МОИ». Последний вариант особенно популярен в больших семьях.</p>
+
+  <h2 id="prices">Прайс лист</h2>
+  <table border="1">
+    <thead><tr><th>Название</th><th>Что входит</th><th>Цена</th></tr></thead>
+    <tbody>
+      <tr><td>Базовые «Шлёп»</td><td>Два тапка. Всё честно</td><td>999 руб.</td></tr>
+      <tr><td>Премиальные «Шлёп-шлёп»</td><td>Два тапка с помпонами. Уже статус</td><td>1999 руб.</td></tr>
+      <tr><td>VIP «Не трогай, это папины»</td><td>Именная вышивка и уважение в прихожей</td><td>2999 руб.</td></tr>
+    </tbody>
+  </table>
+  <p>Цена указана за пару. Ноги в комплект не входят. Рассрочка: сначала надеваете левый, потом правый.</p>
+
+  <h2 id="reviews">Отзывы наших клиентов</h2>
+  <p>«Покупал для дома. Теперь домой хочется». — Валерий, 43 года</p>
+  <p>«Заказала мужу. Носит. Мужа тоже пока оставила». — Ирина</p>
+  <p>«Один утащил. За вторым вернусь». — Барсик, отзыв оставлен без согласования</p>
+  <p>«Сайт ужасный, тапочки хорошие». — Единственный человек, который написал по существу</p>
+
+  <h2>Частые вопросы</h2>
+  <p><b>Почему ручной работы, если для ног?</b><br>Этот вопрос передан руководству. Руководство вздохнуло.</p>
+  <p><b>Можно носить на улице?</b><br>Мы не ваша мама. Но мама бы не одобрила.</p>
+  <p><b>Можно заказать один тапок?</b><br>Можно. Второй будет скучать у нас.</p>
+  <p><b>Как выбрать размер?</b><br>Посмотрите на ногу. Теперь на размер обуви. Лучше всё-таки на размер обуви.</p>
+  <p><b>Почему сайт без дизайна?</b><br>Весь бюджет ушёл в подошву.</p>
+
+  <h2 id="contacts">Контакты</h2>
+  <p>Адрес: город Мухосранск, Тапочный переулок, дом 2, дверь с ковриком «ВЫТИРАЙТЕ НОГИ».</p>
+  <p>Телефон: +7 (000) 000-00-00</p>
+  <p>Электронная почта: shlep@tapochki.example</p>
+  <p>Режим работы: пн–пт, с 10:00 до 18:00. С 13:00 до 14:00 снимаем тапочки со стола и обедаем.</p>
+  <p>Доставка обсуждается по телефону. Если живёте через стенку — постучите.</p>
+  <hr>
+  <p>ТАПОЧКИ РУЧНОЙ РАБОТЫ. Все ноги защищены. <a href="#">Наверх, пока не остыли пятки</a></p>
+</body>
+</html>
